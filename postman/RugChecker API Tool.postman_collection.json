@@ -1,0 +1,177 @@
+{
+	"info": {
+		"_postman_id": "7f3e8c85-dd5f-439e-ba02-4213f069649e",
+		"name": "RugChecker API Tool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38438776"
+	},
+	"item": [
+		{
+			"name": "Get Verified Stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000?action=get_verified_stats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"query": [
+						{
+							"key": "action",
+							"value": "get_verified_stats"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get New Tokens",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000?action=get_new_tokens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"query": [
+						{
+							"key": "action",
+							"value": "get_new_tokens"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Trending Tokens",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000?action=get_trending_tokens",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"query": [
+						{
+							"key": "action",
+							"value": "get_trending_tokens"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000?action=get_token_summary&token_id=0x1234567890abcdef1234567890abcdef12345678",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"query": [
+						{
+							"key": "action",
+							"value": "get_token_summary"
+						},
+						{
+							"key": "token_id",
+							"value": "0x1234567890abcdef1234567890abcdef12345678"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Domains",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000?action=get_domains&page=1&limit=10&verified=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"query": [
+						{
+							"key": "action",
+							"value": "get_domains"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "verified",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Maintenance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000?action=check_maintenance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"query": [
+						{
+							"key": "action",
+							"value": "check_maintenance"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Help Page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/help",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"help"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

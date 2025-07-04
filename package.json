@@ -1,0 +1,26 @@
+{
+  "name": "rug-guardian-test",
+  "version": "0.0.1",
+  "description": "A tool for testing and analyzing cryptocurrency tokens for potential risks and rug pulls",
+  "author": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start:dev": "npm run build && node bin/dev.js",
+    "test:request": "curl -XGET \"http://localhost:3000?action=get_verified_stats\" && echo",
+    "validate:manifest": "node bin/validate-manifest.js"
+  },
+  "dependencies": {
+    "axios": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.11",
+    "@types/express": "^4.17.21",
+    "ajv": "^8.12.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "license": "ISC"
+}
