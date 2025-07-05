@@ -4,7 +4,7 @@
     "schema": {
         "type": "function",
         "function": {
-            "name": "analyze_token",
+            "name": "Mosaia-ai-prod-tools-74f8eea63f83",
             "description": "Analyzes cryptocurrency tokens for potential risks and provides detailed information about token statistics, verification status, and community sentiment.",
             "parameters": {
                 "type": "object",
@@ -34,7 +34,8 @@
                         "description": "Number of results per page"
                     }
                 },
-                "required": ["action"]
+                "required": ["action"],
+                "additionalProperties": false
             }
         }
     },

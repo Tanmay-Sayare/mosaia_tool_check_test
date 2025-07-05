@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 interface RugCheckParams {
-    page?: number;
-    limit?: number;
+    page?: string;
+    limit?: string;
+    verified?: string;
 }
 
 export default async function toolCall(
@@ -10,12 +11,14 @@ export default async function toolCall(
     token_id: string | undefined,
     page: string | undefined,
     limit: string | undefined,
-    rugcheckBaseUrl: string
+    rugcheckBaseUrl: string,
+    verified?: string
 ): Promise<string> {
     // Construct params object for optional parameters
     const params: RugCheckParams = {};
-    if (page) params.page = parseInt(page);
-    if (limit) params.limit = parseInt(limit);
+    if (page) params.page = page;
+    if (limit) params.limit = limit;
+    if (verified) params.verified = verified;
     
     try {
         const result = await callRugCheckAPI(action, token_id, params, rugcheckBaseUrl);
@@ -61,6 +64,30 @@ async function callRugCheckAPI(
             }
             endpoint = `/tokens/${token_id}/votes`;
             break;
+        case 'get_domains':
+            endpoint = '/domains';
+            break;
+        case 'get_domains_csv':
+            endpoint = '/domains/data.csv';
+            break;
+        case 'lookup_domain':
+            if (!token_id) {
+                throw new Error('token_id (domain name) is required for lookup_domain action');
+            }
+            endpoint = `/domains/lookup/${token_id}`;
+            break;
+        case 'get_domain_records':
+            if (!token_id) {
+                throw new Error('token_id (domain name) is required for get_domain_records action');
+            }
+            endpoint = `/domains/records/${token_id}`;
+            break;
+        case 'get_leaderboard':
+            endpoint = '/leaderboard';
+            break;
+        case 'check_maintenance':
+            endpoint = '/maintenance';
+            break;
         default:
             throw new Error(`Invalid action: ${action}`);
     }
@@ -70,7 +97,8 @@ async function callRugCheckAPI(
             method: 'GET',
             url: `${baseUrl}${endpoint}`,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             params: Object.keys(params).length > 0 ? params : undefined
         };
