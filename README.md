@@ -1,11 +1,10 @@
-# RugGuardianTest API
-### Main
+# RugCheck Tool
 
 A Mosaia Tool implementation for analyzing cryptocurrency tokens and detecting potential risks using the RugCheck API.
 
-## About RugGuardianTest API
+## About RugCheck Tool
 
-The RugGuardianTest API provides a simplified interface to the RugCheck.xyz API, focusing on essential token analysis features. This tool helps users identify potential risks in blockchain projects and analyze token legitimacy.
+The RugCheck Tool provides a simplified interface to the RugCheck.xyz API, focusing on essential token analysis features. This tool helps users identify potential risks in blockchain projects and analyze token legitimacy.
 
 ### Available Actions
 
@@ -23,40 +22,21 @@ The RugGuardianTest API provides a simplified interface to the RugCheck.xyz API,
 3. Create a `.env` file with the following configuration:
    ```
    RUGCHECK_BASE_URL=https://api.rugcheck.xyz/v1
-   PORT=3000
    ```
 4. Build the project: `npm run build`
-5. Start the local development server: `npm run start:dev`
-6. Visit http://localhost:3000/help to see the API documentation
-
-### API Usage Examples
-
-1. Get verified tokens:
-```bash
-curl -XGET "http://localhost:3000/?action=get_verified_stats"
-```
-
-2. Get token summary:
-```bash
-curl -XGET "http://localhost:3000/?action=get_token_summary&token_id=YOUR_TOKEN_ID"
-```
-
-3. Get trending tokens with pagination:
-```bash
-curl -XGET "http://localhost:3000/?action=get_trending_tokens&page=1&limit=10"
-```
+5. Validate the manifest: `npm run validate:manifest`
 
 ### Parameters
 
 - **action** (required): The API action to perform (one of the available actions listed above)
 - **token_id** (required for token-specific actions): The token ID for summary and votes actions
-- **page** (optional): Page number for paginated results (minimum: 1)
-- **limit** (optional): Number of results per page (minimum: 1, maximum: 100)
+- **page** (optional): Page number for paginated results
+- **limit** (optional): Number of results per page
 
 ### Deploying to Mosaia
 
 1. Register for an account on mosaia.ai
-2. Install the GitHub app to your repo
+2. Install the GitHub app to your repo by clicking the "Launch App" button on: https://mosaia.ai/org/mosaia/app/github
 3. Validate your `.mosaia` manifest file: `npm run validate:manifest`
 4. Push your changes to `main`
 5. Your tool will appear in your Mosaia dashboard
@@ -82,16 +62,13 @@ This script validates:
 
 The project is built with:
 - TypeScript
-- Express.js for the development server
 - Axios for API requests
-- dotenv for environment configuration
 
 ### Project Structure
 
 ```
-RugGuardianTest/
+RugCheck Tool/
 ├── bin/
-│   ├── dev.js            # Development server
 │   └── validate-manifest.js
 ├── src/
 │   ├── index.ts          # Main handler
