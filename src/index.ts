@@ -1,62 +1,37 @@
 import toolCall from "./tool-call";
 
-type RawEvent = {
-    body: string;
+type ToolInput = {
+    action: string;
+    token_id?: string;
+    page?: string;
+    limit?: string;
 }
 
-type ParsedEvent = {
-    args: {
-        action: string;
-        token_id?: string;
-        page?: string;
-        limit?: string;
-    };
-    secrets: {
-        RUGCHECK_BASE_URL: string;
-    }
-}
-
-export async function handler(event: RawEvent) {
-    const {
-        args: {
-            action,
-            token_id,
-            page,
-            limit
-        },
-        secrets: {
-            RUGCHECK_BASE_URL
-        }
-    } = JSON.parse(event.body) as ParsedEvent;
+export async function analyze_token(input: ToolInput, context: { RUGCHECK_BASE_URL: string }) {
+    const { action, token_id, page, limit } = input;
+    const { RUGCHECK_BASE_URL } = context;
 
     // Validate required parameters
     if (!action) {
-        return {
-            statusCode: 400,
-            body: JSON.stringify({
-                error: 'Missing required parameter: action',
-                validActions: [
-                    'get_verified_stats',
-                    'get_new_tokens',
-                    'get_trending_tokens',
-                    'get_recent_tokens',
-                    'get_token_summary',
-                    'get_token_votes'
-                ]
-            }),
-        };
+        throw new Error(JSON.stringify({
+            error: 'Missing required parameter: action',
+            validActions: [
+                'get_verified_stats',
+                'get_new_tokens',
+                'get_trending_tokens',
+                'get_recent_tokens',
+                'get_token_summary',
+                'get_token_votes'
+            ]
+        }));
     }
 
-    // Use the RUGCHECK_BASE_URL from environment variables or default
+    // Use the RUGCHECK_BASE_URL from context
     const baseUrl = RUGCHECK_BASE_URL || 'https://api.rugcheck.xyz/v1';
 
     try {
         const result = await toolCall(action, token_id, page, limit, baseUrl);
-
-        return {
-            statusCode: 200,
-            body: result, // result is already stringified in toolCall
-        };
+        return JSON.parse(result); // Return parsed JSON instead of string
     } catch (error: unknown) {
         let message = '';
 
@@ -66,12 +41,9 @@ export async function handler(event: RawEvent) {
             message = 'Unknown error';
         }
 
-        return {
-            statusCode: 500,
-            body: JSON.stringify({
-                error: 'Failed to execute RugCheck API request',
-                details: message
-            }),
-        };
+        throw new Error(JSON.stringify({
+            error: 'Failed to execute RugCheck API request',
+            details: message
+        }));
     }
 }

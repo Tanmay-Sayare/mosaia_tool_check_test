@@ -1,18 +1,16 @@
 {
-    "name": "RugGuardianTest",
-    "description": "All in tool for rug checking platform and trader trusted api's manager.",
+    "name": "RugCheck Tool",
+    "description": "A powerful tool for analyzing cryptocurrency tokens and identifying potential risks using the RugCheck API. It provides comprehensive token analysis, verification stats, and trend monitoring.",
     "schema": {
         "type": "function",
         "function": {
-            "name": "RugChecker",
-            "description": "RugChecker is a risk analysis assistant for blockchain projects. It provides insights into the legitimacy of DeFi, NFT, and crypto initiatives.",
-            "strict": true,
+            "name": "analyze_token",
+            "description": "Analyzes cryptocurrency tokens for potential risks and provides detailed information about token statistics, verification status, and community sentiment.",
             "parameters": {
                 "type": "object",
                 "properties": {
                     "action": {
                         "type": "string",
-                        "description": "The RugCheck API action to perform",
                         "enum": [
                             "get_verified_stats",
                             "get_new_tokens",
@@ -20,30 +18,25 @@
                             "get_recent_tokens",
                             "get_token_summary",
                             "get_token_votes"
-                        ]
+                        ],
+                        "description": "The type of analysis to perform"
                     },
                     "token_id": {
                         "type": "string",
-                        "description": "The token ID required for token_summary and token_votes actions"
+                        "description": "The token address or identifier to analyze (required for token-specific actions)"
                     },
                     "page": {
-                        "type": "integer",
-                        "description": "Page number for paginated results",
-                        "minimum": 1
+                        "type": "string",
+                        "description": "Page number for paginated results"
                     },
                     "limit": {
-                        "type": "integer",
-                        "description": "Number of results per page",
-                        "minimum": 1,
-                        "maximum": 100
+                        "type": "string",
+                        "description": "Number of results per page"
                     }
                 },
-                "required": ["action"],
-                "additionalProperties": false
+                "required": ["action"]
             }
         }
     },
-    "envVars": [
-        "RUGCHECK_BASE_URL"
-    ]
+    "envVars": ["RUGCHECK_BASE_URL"]
 }

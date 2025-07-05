@@ -12,8 +12,6 @@ export default async function toolCall(
     limit: string | undefined,
     rugcheckBaseUrl: string
 ): Promise<string> {
-    console.log(`Received RugCheck API request for action: ${action}`);
-    
     // Construct params object for optional parameters
     const params: RugCheckParams = {};
     if (page) params.page = parseInt(page);
@@ -24,7 +22,7 @@ export default async function toolCall(
         return JSON.stringify(result);
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`RugCheck API Error: ${error.message}`);
+            throw new Error(error.message);
         }
         throw new Error('Unknown error occurred while calling RugCheck API');
     }
@@ -36,64 +34,38 @@ async function callRugCheckAPI(
     params: RugCheckParams,
     baseUrl: string
 ) {
+    let endpoint = '';
+    
+    switch (action) {
+        case 'get_verified_stats':
+            endpoint = '/stats/verified';
+            break;
+        case 'get_new_tokens':
+            endpoint = '/stats/new_tokens';
+            break;
+        case 'get_trending_tokens':
+            endpoint = '/stats/trending';
+            break;
+        case 'get_recent_tokens':
+            endpoint = '/stats/recent';
+            break;
+        case 'get_token_summary':
+            if (!token_id) {
+                throw new Error('token_id is required for get_token_summary action');
+            }
+            endpoint = `/tokens/${token_id}/report/summary`;
+            break;
+        case 'get_token_votes':
+            if (!token_id) {
+                throw new Error('token_id is required for get_token_votes action');
+            }
+            endpoint = `/tokens/${token_id}/votes`;
+            break;
+        default:
+            throw new Error(`Invalid action: ${action}`);
+    }
+    
     try {
-        let endpoint = '';
-        
-        switch (action) {
-            case 'get_verified_stats':
-                endpoint = '/stats/verified';
-                break;
-            case 'get_new_tokens':
-                endpoint = '/stats/new_tokens';
-                break;
-            case 'get_trending_tokens':
-                endpoint = '/stats/trending';
-                break;
-            case 'get_recent_tokens':
-                endpoint = '/stats/recent';
-                break;
-            case 'get_token_summary':
-                if (!token_id) {
-                    throw new Error('token_id is required for get_token_summary action');
-                }
-                endpoint = `/tokens/${token_id}/report/summary`;
-                break;
-            case 'get_token_votes':
-                if (!token_id) {
-                    throw new Error('token_id is required for get_token_votes action');
-                }
-                endpoint = `/tokens/${token_id}/votes`;
-                break;
-            case 'get_domains':
-                endpoint = '/domains';
-                break;
-            case 'get_domains_csv':
-                endpoint = '/domains/data.csv';
-                break;
-            case 'lookup_domain':
-                if (!token_id) {
-                    throw new Error('token_id (domain name) is required for lookup_domain action');
-                }
-                endpoint = `/domains/lookup/${token_id}`;
-                break;
-            case 'get_domain_records':
-                if (!token_id) {
-                    throw new Error('token_id (domain name) is required for get_domain_records action');
-                }
-                endpoint = `/domains/records/${token_id}`;
-                break;
-            case 'get_leaderboard':
-                endpoint = '/leaderboard';
-                break;
-            case 'check_maintenance':
-                endpoint = '/maintenance';
-                break;
-            default:
-                throw new Error(`Invalid action: ${action}`);
-        }
-        
-        console.log('Making API call to:', `${baseUrl}${endpoint}`);
-        
         const config = {
             method: 'GET',
             url: `${baseUrl}${endpoint}`,
@@ -107,7 +79,6 @@ async function callRugCheckAPI(
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            console.error('RugCheck API Error:', error.response?.data || error.message);
             if (error.response?.status === 429) {
                 throw new Error('Rate limit exceeded. Please try again later.');
             }
