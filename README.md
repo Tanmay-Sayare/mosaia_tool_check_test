@@ -1,4 +1,5 @@
 # RugGuardianTest API
+### Main
 
 A Mosaia Tool implementation for analyzing cryptocurrency tokens and detecting potential risks using the RugCheck API.
 
