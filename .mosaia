@@ -1,17 +1,18 @@
 {
     "name": "RugCheck Tool",
-    "description": "A powerful tool for analyzing cryptocurrency tokens and identifying potential risks using the RugCheck API. It provides comprehensive token analysis, verification stats, and trend monitoring.",
+    "description": "A tool for analyzing cryptocurrency tokens and identifying potential risks using the RugCheck API",
     "schema": {
         "type": "function",
         "function": {
-            "name": "Mosaia-ai-prod-tools-74f8eea63f83",
-            "description": "Analyzes cryptocurrency tokens for potential risks and provides detailed information about token statistics, verification status, and community sentiment.",
+            "name": "RugCheck Tool",
+            "description": "Analyzes cryptocurrency tokens for potential risks and provides detailed information about token statistics, verification status, and community sentiment. The tool helps identify potential threats in DeFi projects.",
             "strict": true,
             "parameters": {
                 "type": "object",
                 "properties": {
                     "action": {
                         "type": "string",
+                        "description": "The type of analysis to perform on the token or get statistics",
                         "enum": [
                             "get_verified_stats",
                             "get_new_tokens",
@@ -19,8 +20,7 @@
                             "get_recent_tokens",
                             "get_token_summary",
                             "get_token_votes"
-                        ],
-                        "description": "The type of analysis to perform"
+                        ]
                     },
                     "token_id": {
                         "type": "string",

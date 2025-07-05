@@ -1,88 +1,53 @@
-# RugCheck Tool
+# RugCheck Tool for Mosaia.ai
 
-A Mosaia Tool implementation for analyzing cryptocurrency tokens and detecting potential risks using the RugCheck API.
+A tool for analyzing cryptocurrency tokens and identifying potential risks using the RugCheck API.
 
-## About RugCheck Tool
+## Development Setup
 
-The RugCheck Tool provides a simplified interface to the RugCheck.xyz API, focusing on essential token analysis features. This tool helps users identify potential risks in blockchain projects and analyze token legitimacy.
+1. Install dependencies:
+```bash
+npm install
+```
 
-### Available Actions
+2. Create a `.env` file with the following variables:
+```
+RUGCHECK_BASE_URL=https://api.rugcheck.xyz/v1
+PORT=3000  # Optional, defaults to 3000
+```
 
-- **get_verified_stats**: Get list of verified tokens
-- **get_new_tokens**: Get list of recently detected tokens
-- **get_trending_tokens**: Get most voted tokens in last 24h
-- **get_recent_tokens**: Get most viewed tokens in last 24h
-- **get_token_summary**: Get token report summary (requires token_id)
-- **get_token_votes**: Get token voting statistics (requires token_id)
+3. Build the project:
+```bash
+npm run build
+```
 
-## Getting Started
+4. Start the development server:
+```bash
+npm run dev
+```
 
-1. Clone this repository
-2. Install dependencies: `npm install`
-3. Create a `.env` file with the following configuration:
-   ```
-   RUGCHECK_BASE_URL=https://api.rugcheck.xyz/v1
-   ```
-4. Build the project: `npm run build`
-5. Validate the manifest: `npm run validate:manifest`
+## API Usage
 
-### Parameters
+The tool exposes a single endpoint that accepts POST requests with the following parameters:
 
-- **action** (required): The API action to perform (one of the available actions listed above)
-- **token_id** (required for token-specific actions): The token ID for summary and votes actions
-- **page** (optional): Page number for paginated results
-- **limit** (optional): Number of results per page
+- `action` (required): The type of analysis to perform
+  - `get_verified_stats`: Get statistics about verified tokens
+  - `get_new_tokens`: Get list of new tokens
+  - `get_trending_tokens`: Get list of trending tokens
+  - `get_recent_tokens`: Get list of recently added tokens
+  - `get_token_summary`: Get detailed summary for a specific token
+  - `get_token_votes`: Get community votes for a specific token
 
-### Deploying to Mosaia
+- `token_id` (required for token-specific actions): The token address or identifier
+- `page` (optional): Page number for paginated results
+- `limit` (optional): Number of results per page
 
-1. Register for an account on mosaia.ai
-2. Install the GitHub app to your repo by clicking the "Launch App" button on: https://mosaia.ai/org/mosaia/app/github
-3. Validate your `.mosaia` manifest file: `npm run validate:manifest`
-4. Push your changes to `main`
-5. Your tool will appear in your Mosaia dashboard
-
-## Manifest Validation
-
-The project includes a validation script that checks your `.mosaia` manifest file against the required schema:
+### Example Request
 
 ```bash
-npm run validate:manifest
+curl -X POST http://localhost:3000 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "action": "get_token_summary",
+    "token_id": "0x123..."
+  }'
 ```
-
-This script validates:
-- **name**: Must be a string with minimum length 5
-- **description**: Must be a string with minimum length 30
-- **schema.type**: Must be "function"
-- **schema.function.name**: Must be a string with minimum length 5
-- **schema.function.description**: Must be a string with minimum length 30
-- **schema.function.parameters**: Must be a valid JSON schema object
-- **envVars**: Must be an array of strings
-
-## Development
-
-The project is built with:
-- TypeScript
-- Axios for API requests
-
-### Project Structure
-
-```
-RugCheck Tool/
-├── bin/
-│   └── validate-manifest.js
-├── src/
-│   ├── index.ts          # Main handler
-│   └── tool-call.ts      # API implementation
-├── .env                  # Environment configuration
-├── .mosaia              # Mosaia manifest
-├── package.json
-└── tsconfig.json
-```
-
-## Minimum Requirements
-
-The project requires:
-1. A valid `.mosaia` file
-2. npm `build` command
-3. Transpiled code in `dist` directory
-4. Entry point at `dist/index.js`
